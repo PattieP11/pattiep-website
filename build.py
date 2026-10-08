@@ -33,6 +33,8 @@ def guard(obj, path="content"):
 
 
 bad = guard(C)
+if len(C['site']['description']) > 160:
+    bad.append(f"site.description is {len(C['site']['description'])} characters; keep it at 160 or less so Google shows all of it")
 if bad:
     print("NOT BUILT. Fix these in content.json first:\n  " + "\n  ".join(bad))
     sys.exit(1)

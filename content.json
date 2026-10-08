@@ -3,7 +3,7 @@
   "site": {
     "url": "https://pattiep.com/",
     "title": "Pattie Philibosian · Petaluma Real Estate",
-    "description": "Pattie Philibosian helps Petaluma homeowners downsize: pre-listing inspection, a clear prep plan, and personal management of every detail. eXp Realty, DRE #02091279.",
+    "description": "Pattie Philibosian helps Petaluma homeowners downsize: a pre-listing inspection, a clear prep plan, and every detail handled. eXp Realty, DRE #02091279.",
     "share_image": "images/listing-494.jpg"
   },
   "agent": {
@@ -35,23 +35,62 @@
     "headline": "The Committed Partner Plan",
     "intro": "Most agents list your house the way it is and hope. I inspect it, plan it, and get it ready first, so it goes to market as a Success-Ready Home.",
     "steps": [
-      {"name": "Assess", "text": "I walk through your home with you and review its current condition."},
-      {"name": "Inspect", "text": "A pre-listing inspection, so problems surface before a buyer finds them."},
-      {"name": "Plan", "text": "Together we decide which repairs and updates are worth doing, and which are not."},
-      {"name": "Schedule", "text": "A timeline for the prep work and the day your home goes on the market."},
-      {"name": "Prepare", "text": "I manage it personally: paint colors, fixtures, every vendor. You know each step before it happens."}
+      {
+        "name": "Assess",
+        "text": "I walk through your home with you and review its current condition."
+      },
+      {
+        "name": "Inspect",
+        "text": "A pre-listing inspection, so problems surface before a buyer finds them."
+      },
+      {
+        "name": "Plan",
+        "text": "Together we decide which repairs and updates are worth doing, and which are not."
+      },
+      {
+        "name": "Schedule",
+        "text": "A timeline for the prep work and the day your home goes on the market."
+      },
+      {
+        "name": "Prepare",
+        "text": "I manage it personally: paint colors, fixtures, every vendor. You know each step before it happens."
+      }
     ]
   },
   "reviews": {
     "eyebrow": "In their words",
     "headline": "What clients say",
     "items": [
-      {"quote": "Having someone handle all the coordination of repairs and staging made the process stress-free and easy. She was prompt and paid attention to all the details.", "name": "Michael Y.", "context": "Sold a family home in Petaluma while living 2 hours away"},
-      {"quote": "The house needed a lot of love and updating. Pattie exceeded all expectations making the house look beautiful and ready to sell! She communicates well and kept us updated the entire time.", "name": "Lisa Y.", "context": "Same family and home as Michael Y."},
-      {"quote": "Pattie came to the listing interview immensely prepared. Her careful shepherding of the whole deal through escrow and closing while we were three states away were fantastic.", "name": "Dana and Ann L.", "context": "Chose Pattie after interviewing three Realtors"},
-      {"quote": "What especially sets Pattie apart is her integrity and her commitment to her clients. She was always prompt in responding to my questions and kept me informed every step of the way.", "name": "Lucy E.", "context": "Seller"},
-      {"quote": "She is so friendly and helpful. Pattie has made herself available for any questions as we are working through this process.", "name": "Lucy S.", "context": "First-time seller"},
-      {"quote": "Her attention to detail and excellent communication has been critical to the success of several high end projects we worked on together.", "name": "Brian J.", "context": "Colleague, property management Executive Board"}
+      {
+        "quote": "Having someone handle all the coordination of repairs and staging made the process stress-free and easy. She was prompt and paid attention to all the details.",
+        "name": "Michael Y.",
+        "context": "Sold a family home in Petaluma while living 2 hours away"
+      },
+      {
+        "quote": "The house needed a lot of love and updating. Pattie exceeded all expectations making the house look beautiful and ready to sell! She communicates well and kept us updated the entire time.",
+        "name": "Lisa Y.",
+        "context": "Same family and home as Michael Y."
+      },
+      {
+        "quote": "Pattie came to the listing interview immensely prepared. Her careful shepherding of the whole deal through escrow and closing while we were three states away were fantastic.",
+        "name": "Dana and Ann L.",
+        "context": "Chose Pattie after interviewing three Realtors"
+      },
+      {
+        "quote": "What especially sets Pattie apart is her integrity and her commitment to her clients. She was always prompt in responding to my questions and kept me informed every step of the way.",
+        "name": "Lucy E.",
+        "context": "Seller"
+      },
+      {
+        "quote": "She is so friendly and helpful. Pattie has made herself available for any questions as we are working through this process.",
+        "name": "Lucy S.",
+        "context": "First-time seller"
+      },
+      {
+        "quote": "Her attention to detail and excellent communication has been critical to the success of several high end projects we worked on together.",
+        "name": "Brian J.",
+        "context": "Colleague, property management Executive Board"
+      }
     ],
     "source_note": "Reviews posted publicly on Google."
   },
