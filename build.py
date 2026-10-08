@@ -301,7 +301,7 @@ def index():
 <script>
 (function(){{
   var f=document.getElementById('contact-form'),st=document.getElementById('f-status');
-  var KEY={json.dumps(Co['web3forms_key'])},OK={json.dumps(Co['success'])},ERR={json.dumps(Co['error'])};
+  var KEY={json.dumps(Co['web3forms_key'])},GHL={json.dumps(Co['ghl_endpoint'])},OK={json.dumps(Co['success'])},ERR={json.dumps(Co['error'])};
   f.addEventListener('submit',function(ev){{
     ev.preventDefault();
     if(f.dataset.busy==='1')return;
@@ -314,6 +314,11 @@ def index():
     var body={{access_key:KEY,subject:'Website message from '+name,from_name:'pattiep.com',name:name,email:email,
       phone:consent?phone:(phone?'(given, but no permission to call or text)':''),
       sms_consent:consent?'yes':'no',message:v('f-msg').value.trim(),page:location.href,botcheck:false}};
+    // GoHighLevel copy: sent to the agent's own Client Tools handler. The page cannot read its
+    // answer (different site), so success shown to the visitor is judged by the email channel only.
+    try{{fetch(GHL,{{method:'POST',mode:'no-cors',headers:{{'Content-Type':'text/plain'}},keepalive:true,
+      body:JSON.stringify({{form_type:'website-contact',contact_name:name,contact_email:email,contact_phone:phone,
+      sms_consent:consent?'yes':'no',message:v('f-msg').value.trim(),page:location.href}})}}).catch(function(){{}});}}catch(e){{}}
     f.dataset.busy='1';var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending...';
     fetch('https://api.web3forms.com/submit',{{method:'POST',headers:{{'Content-Type':'application/json','Accept':'application/json'}},body:JSON.stringify(body)}})
       .then(function(r){{return r.json();}})

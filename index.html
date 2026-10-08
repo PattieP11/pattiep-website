@@ -211,7 +211,7 @@ footer .logos img{height:40px;width:auto;background:#fff;padding:6px 10px;border
 <script>
 (function(){
   var f=document.getElementById('contact-form'),st=document.getElementById('f-status');
-  var KEY="97fe75db-f4cf-4276-b968-a66f3e8f2db6",OK="Thank you. Your note is on its way to Pattie, and she'll be in touch soon.",ERR="That didn't go through. Please call or text Pattie at 415-897-4774.";
+  var KEY="97fe75db-f4cf-4276-b968-a66f3e8f2db6",GHL="https://client-tools-site-nu.vercel.app/api/submit",OK="Thank you. Your note is on its way to Pattie, and she'll be in touch soon.",ERR="That didn't go through. Please call or text Pattie at 415-897-4774.";
   f.addEventListener('submit',function(ev){
     ev.preventDefault();
     if(f.dataset.busy==='1')return;
@@ -224,6 +224,11 @@ footer .logos img{height:40px;width:auto;background:#fff;padding:6px 10px;border
     var body={access_key:KEY,subject:'Website message from '+name,from_name:'pattiep.com',name:name,email:email,
       phone:consent?phone:(phone?'(given, but no permission to call or text)':''),
       sms_consent:consent?'yes':'no',message:v('f-msg').value.trim(),page:location.href,botcheck:false};
+    // GoHighLevel copy: sent to the agent's own Client Tools handler. The page cannot read its
+    // answer (different site), so success shown to the visitor is judged by the email channel only.
+    try{fetch(GHL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},keepalive:true,
+      body:JSON.stringify({form_type:'website-contact',contact_name:name,contact_email:email,contact_phone:phone,
+      sms_consent:consent?'yes':'no',message:v('f-msg').value.trim(),page:location.href})}).catch(function(){});}catch(e){}
     f.dataset.busy='1';var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending...';
     fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
       .then(function(r){return r.json();})
