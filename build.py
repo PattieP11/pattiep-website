@@ -47,7 +47,7 @@ CSS = """
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.65}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 a{color:var(--navy)}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--navy);outline-offset:3px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
@@ -79,7 +79,9 @@ p{max-width:65ch}
 .hero li{padding:7px 0 7px 28px;position:relative}
 .hero li:before{content:"";position:absolute;left:3px;top:17px;width:10px;height:10px;background:var(--red);transform:rotate(45deg)}
 .hero .reassure{font-family:var(--serif);font-style:italic;font-size:22px;margin-top:22px;color:var(--navy)}
-.hero figure img{border-radius:6px;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 25%}
+.hero figure{width:100%;max-width:400px;justify-self:center}
+.hero figure img{border-radius:50%;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:center 20%;border:6px solid var(--paper);box-shadow:0 0 0 2px var(--navy)}
+.hero figcaption{text-align:center}
 .hero figcaption{font-size:15px;color:var(--gray);margin-top:8px}
 
 /* plan */
@@ -113,8 +115,7 @@ p{max-width:65ch}
 
 /* about */
 .about .wrap{display:grid;grid-template-columns:1fr;gap:36px;align-items:start}
-@media(min-width:880px){.about .wrap{grid-template-columns:.8fr 1.2fr}}
-.about img{border-radius:6px;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:center 22%}
+.about .wrap{max-width:760px}
 .about p{margin-bottom:1em}
 
 /* contact */
@@ -262,7 +263,6 @@ def index():
 </div></section>
 
 <section class="about" id="about"><div class="wrap">
-  <img src="{e(Ab['image'])}" alt="{e(Ab['image_alt'])}" loading="lazy" width="1300" height="946">
   <div>
     <span class="label">{e(Ab['eyebrow'])}</span>
     <h2>{e(Ab['headline'])}</h2>
@@ -290,7 +290,7 @@ def index():
     <div class="field"><label for="f-msg">How can I help?</label><textarea id="f-msg" name="message"></textarea></div>
     <label class="consent"><input id="f-sms" name="sms_consent" type="checkbox" value="yes"><span>{e(Co['sms_consent'])}</span></label>
     <div class="hp" aria-hidden="true"><label for="f-bot">Leave this empty</label><input id="f-bot" name="botcheck" type="checkbox" tabindex="-1"></div>
-    <button class="btn primary" type="submit" style="width:100%">Send to Pattie</button>
+    <button class="btn" type="submit" style="width:100%;background:var(--navy);color:#fff">Send to Pattie</button>
     <p id="f-status" class="status" role="status" aria-live="polite"></p>
     <p class="small">Goes straight to Pattie. See the <a href="privacy.html">privacy policy</a>.</p>
   </form>
