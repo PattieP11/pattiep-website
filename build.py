@@ -204,7 +204,6 @@ def index():
         "@context": "https://schema.org",
         "@type": "RealEstateAgent",
         "name": A["name"],
-        "alternateName": A["business"],
         "url": S["url"],
         "image": S["url"] + Ab["image"],
         "telephone": A["phone_tel"],
