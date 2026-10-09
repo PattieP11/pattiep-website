@@ -13,7 +13,7 @@
     "brokerage_short": "eXp Realty",
     "license": "DRE #02091279",
     "brokerage_license": "DRE #02188495",
-    "phone_display": "415-897-4774",
+    "phone_display": "415.897.4774",
     "phone_tel": "+14158974774",
     "email": "pattie.philibosian@exprealty.com",
     "area": "Petaluma, CA",
@@ -124,7 +124,7 @@
     "web3forms_key": "97fe75db-f4cf-4276-b968-a66f3e8f2db6",
     "sms_consent": "Yes, Pattie may call or text me at this number. Message and data rates may apply. Reply STOP to opt out anytime.",
     "success": "Thank you. Your note is on its way to Pattie, and she'll be in touch soon.",
-    "error": "That didn't go through. Please call or text Pattie at 415-897-4774.",
+    "error": "That didn't go through. Please call or text Pattie at 415.897.4774.",
     "ghl_endpoint": "https://client-tools-site-nu.vercel.app/api/submit"
   },
   "legal": {
