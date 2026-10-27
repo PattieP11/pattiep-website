@@ -200,6 +200,18 @@ def index():
         f'<figcaption><div class="who">{e(r["name"])}</div><div class="ctx">{e(r["context"])}</div></figcaption></figure>'
         for r in R["items"])
     about = "".join(f"<p>{e(p)}</p>" for p in Ab["paragraphs"])
+    guides = "".join(
+        f'<div class="guide"><h3><a href="{e(a["slug"])}.html">{e(a["title"])}</a></h3>'
+        f'<p>{e(a["description"])}</p>'
+        f'<div class="btns"><a class="btn" href="{e(a["slug"])}.html">Read the guide</a></div></div>'
+        for a in C.get("articles", []))
+    guides = f"""
+<section class="guides" id="guides"><div class="wrap">
+  <span class="label">Buyer's guide</span>
+  <h2>Before you buy</h2>
+  {guides}
+</div></section>
+""" if guides else ""
     ld = {
         "@context": "https://schema.org",
         "@type": "RealEstateAgent",
@@ -216,6 +228,13 @@ def index():
         "knowsAbout": ["Downsizing", "Pre-listing inspections", "Preparing a home for sale", "Single-level homes"],
     }
     extra = '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + "</script>"
+    if guides:
+        extra += """<style>
+.guide{border:1px solid var(--line);border-left:4px solid var(--red);border-radius:4px;padding:22px 24px;margin-top:20px;max-width:760px}
+.guide h3{font-size:26px;margin-bottom:8px}
+.guide h3 a{color:var(--ink);text-decoration:none}
+.guide .btns{margin-top:14px}
+</style>"""
     return head(S["title"], S["description"], "", extra) + f"""
 <main>
 <section class="hero"><div class="wrap">
@@ -262,7 +281,7 @@ def index():
     </div>
   </div>
 </div></section>
-
+{guides}
 <section class="about" id="about"><div class="wrap">
   <div>
     <span class="label">{e(Ab['eyebrow'])}</span>
