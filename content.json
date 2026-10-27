@@ -129,5 +129,16 @@
   "legal": {
     "fair_housing": "Equal Housing Opportunity.",
     "disclaimer": "All information deemed reliable but not guaranteed."
-  }
+  },
+  "articles": [
+    {
+      "slug": "craftsman-home-near-sonoma-plaza",
+      "source": "articles/craftsman-home-near-sonoma-plaza.md",
+      "title": "Buying a Craftsman Home Near Sonoma Plaza: What to Check First",
+      "description": "Original or rebuilt, which inspections, what Sonoma's historic district allows, and what to ask about a studio. A buyer's guide from Pattie Philibosian.",
+      "date": "2026-10-27",
+      "image": "images/listing-494.jpg",
+      "image_alt": "494 Fourth Street East, a single-story Craftsman home in Sonoma"
+    }
+  ]
 }

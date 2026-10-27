@@ -334,15 +334,16 @@ def privacy():
 <main><section><div class="wrap narrow">
   <span class="label">Privacy policy</span>
   <h1>Privacy policy</h1>
-  <p><em>Last updated: October 8, 2026</em></p>
+  <p><em>Last updated: October 13, 2026</em></p>
   <p>This website, pattiep.com, is run by {e(A['name'])}, a real estate agent with {e(A['brokerage'])} ({e(A['license'])}). This page explains what information is collected here and how it is used.</p>
   <h2 style="font-size:28px;margin-top:32px">What we collect</h2>
   <p>When you send a message through the form on this site, we collect the details you type in: your name, email address, phone number if you give it, and your message. We also note whether you gave permission to be called or texted.</p>
-  <p>We do not use advertising trackers on this site. The site's host may keep standard technical logs, such as your browser type and the time of your visit.</p>
+  <p><strong>Ads and the Meta Pixel.</strong> Our property pages use the Meta Pixel, a tool from Meta (the company behind Facebook and Instagram). It notes visits to those pages so we can show ads about our listings to people who visited and see whether our ads work. Meta may use cookies and receive details such as your browser, device and the pages you viewed. You can change your ad settings in Facebook or Instagram, or block cookies in your browser. The site's host may also keep standard technical logs, such as your browser type and the time of your visit.</p>
   <h2 style="font-size:28px;margin-top:32px">How we use it</h2>
   <p>We use your information only to answer you and to help with your real estate questions. Your message is delivered to {e(A['name'])} by email through a form service (Web3Forms) and may be saved in her client contact system. We only call or text you if you gave permission, and you can reply STOP to any text to opt out.</p>
   <h2 style="font-size:28px;margin-top:32px">What we don't do</h2>
   <p>We do not sell your information. We do not share it with anyone else, except service providers that help deliver and store your messages, or when the law requires it.</p>
+  <p>Under California law, using the Meta Pixel for ads may count as "sharing" your information. To opt out, email {e(A['email'])} or call {e(A['phone_display'])}.</p>
   <h2 style="font-size:28px;margin-top:32px">Your choices</h2>
   <p>You can ask to see, correct, or delete the information you sent us. California residents have rights under the California Consumer Privacy Act. To make a request, email <a href="mailto:{e(A['email'])}">{e(A['email'])}</a> or call {e(A['phone_display'])}.</p>
   <h2 style="font-size:28px;margin-top:32px">Questions</h2>
@@ -353,6 +354,109 @@ def privacy():
     return head("Privacy policy · " + A["name"], "How pattiep.com collects and uses the information you send.", "privacy.html") + body + footer()
 
 
+def inline(t):
+    """Bold and links inside one line of article text."""
+    t = e(t, quote=False)
+    t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', t)
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+
+
+def markdown(md):
+    """The small piece of Markdown the articles use: headings, paragraphs, lists, rules."""
+    out, para, items, kind = [], [], [], None
+
+    def flush():
+        nonlocal para, items, kind
+        if para:
+            out.append("<p>" + inline(" ".join(para)) + "</p>")
+        if items:
+            out.append(f"<{kind}>" + "".join(f"<li>{inline(i)}</li>" for i in items) + f"</{kind}>")
+        para, items, kind = [], [], None
+
+    for line in md.splitlines():
+        s = line.strip()
+        ol = re.match(r"\d+\.\s+(.*)", s)
+        if not s:
+            flush()
+        elif s.startswith("# "):
+            flush()  # the page title comes from content.json
+        elif s.startswith("## "):
+            flush(); out.append(f"<h2>{inline(s[3:])}</h2>")
+        elif s == "---":
+            flush(); out.append("<hr>")
+        elif s.startswith("- ") or ol:
+            want = "ul" if s.startswith("- ") else "ol"
+            if para or (kind and kind != want):
+                flush()
+            kind = want; items.append(s[2:] if want == "ul" else ol.group(1))
+        else:
+            if items:
+                flush()
+            para.append(s)
+    flush()
+    return "\n".join(out)
+
+
+def faq(md):
+    """Question-and-answer pairs under the FAQ heading, for search engines and AI answers."""
+    part = md.split("## Frequently asked questions", 1)
+    if len(part) < 2:
+        return []
+    block = part[1].split("\n## ", 1)[0].split("\n---", 1)[0]
+    pairs = re.findall(r"\*\*(.+?)\*\*\n(.+?)(?:\n\n|\Z)", block.strip() + "\n\n", re.S)
+    return [{"@type": "Question", "name": q.strip(),
+             "acceptedAnswer": {"@type": "Answer", "text": " ".join(a.split())}} for q, a in pairs]
+
+
+ARTICLE_CSS = """<style>
+.article{padding:48px 0 64px}
+.article h1{font-size:clamp(34px,5.6vw,54px)}
+.article .meta{color:var(--gray);font-size:15px;margin-bottom:24px}
+.article .lead{width:100%;border-radius:6px;margin:8px 0 28px}
+.article h2{font-size:clamp(26px,3.8vw,34px);margin:40px 0 14px}
+.article p,.article ul,.article ol{margin-bottom:1em}
+.article ul,.article ol{padding-left:1.4em;max-width:65ch}
+.article li{margin-bottom:.4em}
+.article hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+</style>"""
+
+
+def article(art):
+    md = open(os.path.join(HERE, art["source"]), encoding="utf-8").read()
+    if guard(md, art["source"]) or "[VERIFY" in md:
+        print(f"NOT BUILT. {art['source']} still has a placeholder or a [VERIFY] note.")
+        sys.exit(1)
+    path = art["slug"] + ".html"
+    ld = [{
+        "@context": "https://schema.org", "@type": "Article",
+        "headline": art["title"], "description": art["description"],
+        "datePublished": art["date"], "image": S["url"] + art["image"],
+        "url": S["url"] + path,
+        "author": {"@type": "Person", "name": A["name"], "url": S["url"]},
+        "publisher": {"@type": "RealEstateOrganization", "name": A["brokerage"]},
+    }]
+    qs = faq(md)
+    if qs:
+        ld.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": qs})
+    extra = ARTICLE_CSS + "".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + "</script>" for x in ld)
+    when = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+            "November", "December"][int(art['date'][5:7]) - 1] + f" {int(art['date'][8:])}, {art['date'][:4]}"
+    return head(art["title"] + " · " + A["name"], art["description"], path, extra) + f"""
+<main><article class="article"><div class="wrap narrow">
+  <span class="label">Buyer's guide</span>
+  <h1>{e(art['title'])}</h1>
+  <p class="meta">By {e(A['name'])}, REALTOR® · {e(A['brokerage'])} · {when}</p>
+  <img class="lead" src="{e(art['image'])}" alt="{e(art['image_alt'])}" width="1200" height="800">
+  {markdown(md)}
+  <div class="btns"><a class="btn primary" href="tel:{e(A['phone_tel'])}">Call or text {e(A['phone_display'])}</a><a class="btn" href="index.html">Meet Pattie</a></div>
+</div></article></main>
+""" + footer()
+
+
 open(os.path.join(HERE, "index.html"), "w", encoding="utf-8").write(index())
 open(os.path.join(HERE, "privacy.html"), "w", encoding="utf-8").write(privacy())
-print("Built index.html and privacy.html")
+built = ["index.html", "privacy.html"]
+for art in C.get("articles", []):
+    open(os.path.join(HERE, art["slug"] + ".html"), "w", encoding="utf-8").write(article(art))
+    built.append(art["slug"] + ".html")
+print("Built " + ", ".join(built))
