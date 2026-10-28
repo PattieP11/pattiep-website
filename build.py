@@ -207,8 +207,8 @@ def index():
         for a in C.get("articles", []))
     guides = f"""
 <section class="guides" id="guides"><div class="wrap">
-  <span class="label">Buyer's guide</span>
-  <h2>Before you buy</h2>
+  <span class="label">Guides</span>
+  <h2>Before you buy or sell</h2>
   {guides}
 </div></section>
 """ if guides else ""
@@ -462,7 +462,7 @@ def article(art):
             "November", "December"][int(art['date'][5:7]) - 1] + f" {int(art['date'][8:])}, {art['date'][:4]}"
     return head(art["title"] + " · " + A["name"], art["description"], path, extra) + f"""
 <main><article class="article"><div class="wrap narrow">
-  <span class="label">Buyer's guide</span>
+  <span class="label">{e(art.get('label', 'Guide'), quote=False)}</span>
   <h1>{e(art['title'])}</h1>
   <p class="meta">By {e(A['name'])}, REALTOR® · {e(A['brokerage'])} · {when}</p>
   <img class="lead" src="{e(art['image'])}" alt="{e(art['image_alt'])}" width="1200" height="800">

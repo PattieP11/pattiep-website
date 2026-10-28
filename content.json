@@ -133,12 +133,23 @@
   "articles": [
     {
       "slug": "craftsman-home-near-sonoma-plaza",
+      "label": "Buyer's guide",
       "source": "articles/craftsman-home-near-sonoma-plaza.md",
       "title": "Buying a Craftsman Home Near Sonoma Plaza: What to Check First",
       "description": "Original or rebuilt, which inspections, what Sonoma's historic district allows, and what to ask about a studio. A buyer's guide from Pattie Philibosian.",
       "date": "2026-10-27",
       "image": "images/listing-494.jpg",
       "image_alt": "494 Fourth Street East, a single-story Craftsman home in Sonoma"
+    },
+    {
+      "slug": "sell-first-or-buy-first-petaluma",
+      "label": "Seller's guide",
+      "source": "articles/sell-first-or-buy-first-petaluma.md",
+      "title": "Sell First or Buy First? How to Time a Downsizing Move in Petaluma",
+      "description": "Selling first, buying first, rent-backs, contingent offers and same-day closings, explained. A guide for Petaluma homeowners from Pattie Philibosian.",
+      "date": "2026-10-27",
+      "image": "images/pattie-headshot.jpg",
+      "image_alt": "Pattie Philibosian, REALTOR with eXp Realty"
     }
   ]
 }
