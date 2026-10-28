@@ -416,6 +416,12 @@ def markdown(md):
     return "\n".join(out)
 
 
+def plain(t):
+    """Answer text without Markdown links or bold, for structured data."""
+    t = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", t)
+    return " ".join(t.replace("**", "").split())
+
+
 def faq(md):
     """Question-and-answer pairs under the FAQ heading, for search engines and AI answers."""
     part = md.split("## Frequently asked questions", 1)
@@ -424,7 +430,7 @@ def faq(md):
     block = part[1].split("\n## ", 1)[0].split("\n---", 1)[0]
     pairs = re.findall(r"\*\*(.+?)\*\*\n(.+?)(?:\n\n|\Z)", block.strip() + "\n\n", re.S)
     return [{"@type": "Question", "name": q.strip(),
-             "acceptedAnswer": {"@type": "Answer", "text": " ".join(a.split())}} for q, a in pairs]
+             "acceptedAnswer": {"@type": "Answer", "text": plain(a)}} for q, a in pairs]
 
 
 ARTICLE_CSS = """<style>
