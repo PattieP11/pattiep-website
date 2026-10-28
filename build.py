@@ -484,4 +484,19 @@ built = ["index.html", "privacy.html"]
 for art in C.get("articles", []):
     open(os.path.join(HERE, art["slug"] + ".html"), "w", encoding="utf-8").write(article(art))
     built.append(art["slug"] + ".html")
+
+
+def sitemap():
+    """Every public page, so search engines find new articles without waiting to stumble on them."""
+    newest = max([a["date"] for a in C.get("articles", [])] or [None]) if C.get("articles") else None
+    pages = [("", newest)] + [(a["slug"] + ".html", a["date"]) for a in C.get("articles", [])] + [("privacy.html", None)]
+    rows = "".join(
+        f"  <url><loc>{e(S['url'] + p)}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>\n"
+        for p, d in pages)
+    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + rows + "</urlset>\n"
+
+
+open(os.path.join(HERE, "sitemap.xml"), "w", encoding="utf-8").write(sitemap())
+open(os.path.join(HERE, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\n\nSitemap: {S['url']}sitemap.xml\n")
+built += ["sitemap.xml", "robots.txt"]
 print("Built " + ", ".join(built))
